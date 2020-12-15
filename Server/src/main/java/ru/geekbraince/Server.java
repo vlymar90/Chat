@@ -11,6 +11,8 @@ public class Server {
 
     Server() {
         try {
+            SQLHandler.connect();
+            System.out.println("подключились к базе данных");
             ServerSocket server = new ServerSocket(8189);
             clients = new Vector();
             System.out.println("Ждём поключения клиента");
