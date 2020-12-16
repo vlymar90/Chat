@@ -42,4 +42,11 @@ public class Server {
             c.sendMsg(str);
         }
     }
+    public void broadcastMsg(String str, String nick) {
+        for(HandlerClient c : clients) {
+            if(c.getNickName().equals(nick)) {
+                c.sendMsg(str);
+            }
+        }
+    }
 }

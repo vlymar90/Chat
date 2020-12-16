@@ -39,10 +39,21 @@ public class HandlerClient {
 
                     while (true) {
                         String str = in.readUTF();
+                        String [] token = str.split(" ");
+                        if(token[0].equals("/w")) {
+                            String message = "";
+                            for(int i = 2; i < token.length; i++) {
+                                message += token[i] + " ";
+                            }
+                              String outPut = nickName + ": " + message;
+                            server.broadcastMsg(outPut, token[1]);
+                        }
+                        else {
+                            server.broadcastMsg(nickName + ": " + str);
+                        }
                         if (str.equals("/end")) {
                             break;
                         }
-                        server.broadcastMsg(getNickName() + ": " + str);
                         }
                         } catch (IOException e) {
                             e.printStackTrace();
