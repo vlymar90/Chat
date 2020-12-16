@@ -6,13 +6,12 @@ import java.net.Socket;
 import java.util.Vector;
 
 public class Server {
-   private static int count = 1;
+
    private Vector<HandlerClient> clients;
 
     Server() {
         try {
             SQLHandler.connect();
-            System.out.println("подключились к базе данных");
             ServerSocket server = new ServerSocket(8189);
             clients = new Vector();
             System.out.println("Ждём поключения клиента");
@@ -20,12 +19,13 @@ public class Server {
             while (true) {
                 Socket socket = server.accept();
                 System.out.println("Клиент подключился");
-                HandlerClient client = new HandlerClient("Клиент №" + count + " : ",socket, this);
-                subscribe(client);
-                count++;
+                HandlerClient client = new HandlerClient(socket, this);
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        finally {
+            SQLHandler.disconnect();
         }
     }
 
@@ -33,7 +33,7 @@ public class Server {
         clients.add(client);
     }
 
-    public void unSubscribe(Runnable client) {
+    public void unSubscribe(HandlerClient client) {
         clients.remove(client);
     }
 
@@ -42,5 +42,4 @@ public class Server {
             c.sendMsg(str);
         }
     }
-
 }

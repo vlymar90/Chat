@@ -3,14 +3,17 @@ package ru.geekbrains.lymar;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 
 public class JavaSwing extends JFrame {
     JTextArea outText;
     JTextField text;
+    Client client;
 
-    public JavaSwing() {
-        final Client client = new Client(this);
+    public JavaSwing(final Client client) {
+        this.client = client;
+
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setBounds(600, 200, 400, 500);
         setTitle("Мой чат");
@@ -27,6 +30,7 @@ public class JavaSwing extends JFrame {
         add(outPut, BorderLayout.CENTER);
 
         JPanel inputText = new JPanel(new BorderLayout());
+
         text = new JTextField();
         text.addKeyListener(new KeyAdapter() {
             @Override
@@ -50,11 +54,22 @@ public class JavaSwing extends JFrame {
         inputText.add(text, BorderLayout.CENTER);
         inputText.add(submit, BorderLayout.EAST);
         add(inputText, BorderLayout.SOUTH);
-
         setVisible(true);
+
     }
+
+
+
     public void receiveMsg(String str) {
         outText.setText(outText.getText() + str + "\n");
+        if(outText.getText().equals("/end")) {
+            try {
+                client.finishConnection();
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     public void clearText() {

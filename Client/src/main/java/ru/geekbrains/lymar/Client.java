@@ -10,36 +10,42 @@ import java.net.Socket;
         private Socket socket;
         private DataInputStream in;
         private DataOutputStream out;
+        private boolean isAuthorization = false;
         private JavaSwing javaSwing;
+        private Authorization authorization;
 
 
-
-        Client(final JavaSwing javaSwing) {
-            this.javaSwing = javaSwing;
+        Client() {
             try {
-                socket = new Socket("localhost", 8189);
-                in = new DataInputStream(socket.getInputStream());
-                out = new DataOutputStream(socket.getOutputStream());
+                if (socket == null || socket.isClosed()) {
+                    socket = new Socket("localhost", 8189);
+                    in = new DataInputStream(socket.getInputStream());
+                    out = new DataOutputStream(socket.getOutputStream());
+                    authorization = new Authorization(this);
 
-                new Thread((new Runnable() {
-                    public void run() {
-                        while (true) {
-                            try {
+                    new Thread(() -> {
+                        try {
+                            while (true) {
+                                String str = in.readUTF();
+                                if (str.equals("/authok")) {
+                                    authorization.close();
+                                    javaSwing = new JavaSwing(this);
+                                    break;
+                                }
+                            }
+                            while (true) {
                                 String str = in.readUTF();
                                 javaSwing.receiveMsg(str);
-
-                            } catch (IOException e) {
-                                e.printStackTrace();
                             }
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                    }})).start();
-
-                }catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            }
-
+                    }).start();
+                }
+                }catch(IOException e){
+                    e.printStackTrace();
+                }
+        }
         public void sendMsg (String str) {
             try {
                 out.writeUTF(str);
@@ -48,5 +54,16 @@ import java.net.Socket;
             }
         }
 
-        }
+     public boolean isAuthorization() {
+         return isAuthorization;
+     }
+
+
+     public void finishConnection() throws IOException {
+            in.close();
+            out.close();
+            socket.close();
+            System.exit(0);
+     }
+ }
 

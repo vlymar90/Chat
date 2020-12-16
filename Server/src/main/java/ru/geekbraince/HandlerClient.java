@@ -11,27 +11,38 @@ public class HandlerClient {
    private Server server;
    private DataInputStream in;
    private DataOutputStream out;
-   private String name;
+   private String nickName;
 
 
-    HandlerClient(String name,final Socket socket,final Server server) {
+    HandlerClient(final Socket socket, final Server server) {
         try {
             this.socket = socket;
             this.server = server;
-            this.name = name;
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
+            new Thread(() -> {
                     try {
+                        while (true) {
+                            String str = in.readUTF();
+                            String [] token  = str.split(" ");
+                            if(token.length >= 3 && token[0].equals("/auth")) {
+                                String nickNameBD = SQLHandler.getNickByLoginAndPassword(token[1], token[2]);
+                                if(nickNameBD != null) {
+                                    sendMsg("/authok");
+                                    server.subscribe(this);
+                                    nickName = nickNameBD;
+                                    break;
+                                }
+                            }
+                        }
+
                     while (true) {
                         String str = in.readUTF();
                         if (str.equals("/end")) {
                             break;
                         }
-                        server.broadcastMsg(getName() + str);
+                        server.broadcastMsg(getNickName() + ": " + str);
                         }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -53,12 +64,9 @@ public class HandlerClient {
                                 e.printStackTrace();
                             }
                             server.unSubscribe(this);
-                        }
                     }
-
             }).start();
-        }
-        catch (IOException e) {
+    }catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -71,7 +79,7 @@ public class HandlerClient {
         }
     }
 
-    public String getName() {
-        return name;
+    public String getNickName() {
+        return nickName;
     }
 }
