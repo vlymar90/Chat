@@ -10,14 +10,20 @@ public class JavaSwing extends JFrame {
     JTextArea outText;
     JTextField text;
     Client client;
+    String[] clientList;
+    private String title;
 
-    public JavaSwing(final Client client) {
+    public JavaSwing(final Client client, String title) {
         this.client = client;
+        this.title = title;
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setBounds(600, 200, 400, 500);
-        setTitle("Мой чат");
+        setTitle("Окно чата: " + title);
         setLayout(new BorderLayout());
+
+        JList list = new JList();
+        add(list, BorderLayout.EAST);
 
         JPanel outPut = new JPanel(new BorderLayout());
         outText = new JTextArea();
@@ -76,4 +82,6 @@ public class JavaSwing extends JFrame {
         text.setText("");
         text.requestFocus();
     }
+
+
 }

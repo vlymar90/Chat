@@ -1,5 +1,8 @@
 package ru.geekbrains.lymar;
 
+
+
+import javax.swing.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -10,9 +13,9 @@ import java.net.Socket;
         private Socket socket;
         private DataInputStream in;
         private DataOutputStream out;
-        private boolean isAuthorization = false;
         private JavaSwing javaSwing;
         private Authorization authorization;
+        private JDialog dialog;
 
 
         Client() {
@@ -27,12 +30,25 @@ import java.net.Socket;
                         try {
                             while (true) {
                                 String str = in.readUTF();
-                                if (str.equals("/authok")) {
+                                String[] token = str.split(" ", 2);
+                                if (token[0].equals("/authok")) {
                                     authorization.close();
-                                    javaSwing = new JavaSwing(this);
+                                    javaSwing = new JavaSwing(this, token[1]);
                                     break;
                                 }
+                                if(str.equals("Registration complete")) {
+                                      messageService("Registration complete");
+                                      authorization.panelOn();
+                                }
+                                if(str.equals("nick change")) {
+                                    messageService("complete");
+                                    authorization.panelOn();
+                                }
+                                else {
+                                    messageService(str);
+                                }
                             }
+
                             while (true) {
                                 String str = in.readUTF();
                                 javaSwing.receiveMsg(str);
@@ -54,16 +70,18 @@ import java.net.Socket;
             }
         }
 
-     public boolean isAuthorization() {
-         return isAuthorization;
-     }
-
-
-     public void finishConnection() throws IOException {
+        public void finishConnection() throws IOException {
             in.close();
             out.close();
             socket.close();
             System.exit(0);
      }
+     public void messageService(String message) {
+            dialog = new JDialog();
+            dialog.setBounds(600,200, 150, 150);
+            dialog.setVisible(true);
+            JLabel label = new JLabel(message);
+            dialog.add(label);
+        }
  }
 
