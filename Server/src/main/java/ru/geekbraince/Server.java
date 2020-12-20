@@ -31,10 +31,16 @@ public class Server {
 
     public void subscribe(HandlerClient client) {
         clients.add(client);
+        client.sendMsg("Добро пожаловать в чат!");
+        broadcastMsg(client.getNickName() + " в сети");
+        client.sendMsg("Сейчвс в чате:  " + listClient(clients));
     }
 
     public void unSubscribe(HandlerClient client) {
         clients.remove(client);
+        client.sendMsg("Вы вышли из чата!");
+        broadcastMsg(client.getNickName() + " ушёл из чата");
+        client.sendMsg("Сейчвс в чате: " + listClient(clients));
     }
 
     public void broadcastMsg(String str) {
@@ -48,5 +54,13 @@ public class Server {
                 c.sendMsg(str);
             }
         }
+    }
+
+    public String listClient(Vector<HandlerClient> clients) {
+        String list = "";
+        for(int i = 0; i < clients.size(); i++) {
+            list += clients.get(i).getNickName() + " ";
+        }
+        return list;
     }
 }

@@ -1,16 +1,17 @@
 package ru.geekbrains.lymar;
 
 import javax.swing.*;
+import javax.swing.event.ListDataListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 
 
+
 public class JavaSwing extends JFrame {
-    JTextArea outText;
-    JTextField text;
-    Client client;
-    String[] clientList;
+    private JTextArea outText;
+    private JTextField text;
+    private Client client;
     private String title;
 
     public JavaSwing(final Client client, String title) {
@@ -21,9 +22,6 @@ public class JavaSwing extends JFrame {
         setBounds(600, 200, 400, 500);
         setTitle("Окно чата: " + title);
         setLayout(new BorderLayout());
-
-        JList list = new JList();
-        add(list, BorderLayout.EAST);
 
         JPanel outPut = new JPanel(new BorderLayout());
         outText = new JTextArea();
@@ -82,6 +80,4 @@ public class JavaSwing extends JFrame {
         text.setText("");
         text.requestFocus();
     }
-
-
 }
