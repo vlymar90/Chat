@@ -33,14 +33,14 @@ public class Server {
         clients.add(client);
         client.sendMsg("Добро пожаловать в чат!");
         broadcastMsg(client.getNickName() + " в сети");
-        client.sendMsg("Сейчвс в чате:  " + listClient(clients));
+        broadcastMsg("/list " + listClient(clients));
     }
 
     public void unSubscribe(HandlerClient client) {
         clients.remove(client);
         client.sendMsg("Вы вышли из чата!");
         broadcastMsg(client.getNickName() + " ушёл из чата");
-        client.sendMsg("Сейчвс в чате: " + listClient(clients));
+        broadcastMsg("/list " + listClient(clients));
     }
 
     public void broadcastMsg(String str) {
@@ -50,10 +50,13 @@ public class Server {
     }
     public void broadcastMsg(String str, String nick) {
         for(HandlerClient c : clients) {
-            if(c.getNickName().equals(nick)) {
+            if (c.getNickName().equals(nick)) {
                 c.sendMsg(str);
+                return;
             }
         }
+        String [] token = str.split(" ");
+        broadcastMsg(nick + " не существует или он не в сети.", token[0]);
     }
 
     public String listClient(Vector<HandlerClient> clients) {

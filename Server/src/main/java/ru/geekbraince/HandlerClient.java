@@ -68,9 +68,9 @@ public class HandlerClient {
                         String str = in.readUTF();
                         String[] token = str.split(" ", 3);
                         if (token[0].equals("/w")) {
-                            server.broadcastMsg(token[2], token[1]);
+                            server.broadcastMsg(nickName + " : " + token[2], token[1]);
                         } else {
-                            server.broadcastMsg(nickName + ": " + str);
+                            server.broadcastMsg(getNickName() + ": " + str);
                         }
                         if (str.equals("/end")) {
                             break;

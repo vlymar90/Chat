@@ -1,7 +1,6 @@
 package ru.geekbrains.lymar;
 
 import javax.swing.*;
-import javax.swing.event.ListDataListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -13,6 +12,7 @@ public class JavaSwing extends JFrame {
     private JTextField text;
     private Client client;
     private String title;
+    private JTextArea listClient;
 
     public JavaSwing(final Client client, String title) {
         this.client = client;
@@ -22,6 +22,12 @@ public class JavaSwing extends JFrame {
         setBounds(600, 200, 400, 500);
         setTitle("Окно чата: " + title);
         setLayout(new BorderLayout());
+
+        listClient = new JTextArea();
+        listClient.setEditable(false);
+        listClient.setMinimumSize(new Dimension(100, 450));
+        listClient.setBackground(Color.LIGHT_GRAY);
+        add(listClient, BorderLayout.WEST);
 
         JPanel outPut = new JPanel(new BorderLayout());
         outText = new JTextArea();
@@ -34,7 +40,6 @@ public class JavaSwing extends JFrame {
         add(outPut, BorderLayout.CENTER);
 
         JPanel inputText = new JPanel(new BorderLayout());
-
         text = new JTextField();
         text.addKeyListener(new KeyAdapter() {
             @Override
@@ -59,25 +64,28 @@ public class JavaSwing extends JFrame {
         inputText.add(submit, BorderLayout.EAST);
         add(inputText, BorderLayout.SOUTH);
         setVisible(true);
-
     }
-
-
 
     public void receiveMsg(String str) {
         outText.setText(outText.getText() + str + "\n");
-        if(outText.getText().equals("/end")) {
+        if (outText.getText().equals("/end")) {
             try {
                 client.finishConnection();
-            }catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
     }
 
     public void clearText() {
         text.setText("");
         text.requestFocus();
+    }
+
+    public void listClientInfo(String[] list) {
+        listClient.setText("");
+        for(int i = 1; i < list.length; i++) {
+            listClient.setText(listClient.getText() + list[i] + System.lineSeparator());
+        }
     }
 }

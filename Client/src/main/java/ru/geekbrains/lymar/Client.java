@@ -3,7 +3,6 @@ package ru.geekbrains.lymar;
 
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -18,8 +17,6 @@ import java.net.Socket;
         private Authorization authorization;
         private JDialog dialog;
         private DefaultListModel<String> model;
-        JList list;
-
 
 
         Client() {
@@ -56,19 +53,16 @@ import java.net.Socket;
 
                             while (true) {
                                 String str = in.readUTF();
-                                javaSwing.receiveMsg(str);
+                                if(!str.startsWith("/")) {
+                                    javaSwing.receiveMsg(str);
+                                }
 
-//                               else
-//                                   if(str.startsWith("/list")) {
-//                                       model.clear();
-//                                    String[] token = str.split(" ");
-//                                    for(int i = 1; i < token.length; i++) {
-//                                        model.addElement(token[i]);
-//                                    }
-//                                    JList list = new JList();
-//                                    list.setModel(model);
-//                                    javaSwing.add(list, BorderLayout.EAST);
-//                                   }
+                                else
+                                   if(str.startsWith("/list")) {
+                                       model.clear();
+                                    String[] token = str.split(" ");
+                                    javaSwing.listClientInfo(token);
+                                   }
 
                             }
                         } catch (IOException e) {
@@ -101,11 +95,5 @@ import java.net.Socket;
             JLabel label = new JLabel(message);
             dialog.add(label);
         }
-
-     public JList initList() {
-         JList list = new JList();
-         list.setModel(model);
-         return list;
-     }
  }
 
