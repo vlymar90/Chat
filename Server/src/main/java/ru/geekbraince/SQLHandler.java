@@ -10,7 +10,7 @@ public class SQLHandler {
     public static void connect() {
         try {
             Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\tatia\\OneDrive\\Рабочий стол\\JavaChat\\src\\ru\\geekbrains\\server\\database.db");
+            connection = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\tatia\\OneDrive\\Рабочий стол\\java project\\JavaChat\\src\\ru\\geekbrains\\server\\database.db");
             statement = connection.createStatement();
         } catch (Exception e) {
             e.printStackTrace();
