@@ -36,6 +36,7 @@ import java.net.Socket;
                                     authorization.close();
                                     javaSwing = new JavaSwing(this, token[1]);
                                     this.file = new File("history_" + token[1]);
+                                    inputHistory();
                                     break;
                                 }
                                 if(str.equals("Registration complete")) {
@@ -97,7 +98,7 @@ import java.net.Socket;
             dialog.add(label);
         }
 
-        public void outHistory(String message) {
+        private void outHistory(String message) {
             try (FileWriter writer = new FileWriter(file, true)) {
                     writer.write(message + System.lineSeparator());
             }
@@ -105,5 +106,23 @@ import java.net.Socket;
                 e.printStackTrace();
             }
         }
+
+        private void inputHistory() {
+            char[] strings = new char[10];
+            try(FileReader reader = new FileReader(file)) {
+                int count;
+                String history = "";
+                while ((count = reader.read(strings)) > 0) {
+                    for (int i = 0; i < count; i++) {
+                        history += strings[i];
+                    }
+                }
+                javaSwing.getOutText().setText(history);
+                }
+            catch (IOException e) {
+                 javaSwing.getOutText().setText("Истории сообщений нет" + System.lineSeparator());
+            }
+        }
+
  }
 
