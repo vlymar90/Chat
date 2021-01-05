@@ -3,9 +3,7 @@ package ru.geekbrains.lymar;
 
 
 import javax.swing.*;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 
 
@@ -17,6 +15,7 @@ import java.net.Socket;
         private Authorization authorization;
         private JDialog dialog;
         private DefaultListModel<String> model;
+        private File file;
 
 
         Client() {
@@ -36,6 +35,8 @@ import java.net.Socket;
                                 if (token[0].equals("/authok")) {
                                     authorization.close();
                                     javaSwing = new JavaSwing(this, token[1]);
+                                    this.file = new File("history_" + token[1]);
+                                    inputHistory();
                                     break;
                                 }
                                 if(str.equals("Registration complete")) {
@@ -55,6 +56,7 @@ import java.net.Socket;
                                 String str = in.readUTF();
                                 if(!str.startsWith("/")) {
                                     javaSwing.receiveMsg(str);
+                                    outHistory(str);
                                 }
 
                                 else
@@ -95,5 +97,32 @@ import java.net.Socket;
             JLabel label = new JLabel(message);
             dialog.add(label);
         }
+
+        private void outHistory(String message) {
+            try (FileWriter writer = new FileWriter(file, true)) {
+                    writer.write(message + System.lineSeparator());
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        private void inputHistory() {
+            char[] strings = new char[10];
+            try(FileReader reader = new FileReader(file)) {
+                int count;
+                String history = "";
+                while ((count = reader.read(strings)) > 0) {
+                    for (int i = 0; i < count; i++) {
+                        history += strings[i];
+                    }
+                }
+                javaSwing.getOutText().setText(history);
+                }
+            catch (IOException e) {
+                 javaSwing.getOutText().setText("Истории сообщений нет" + System.lineSeparator());
+            }
+        }
+
  }
 

@@ -14,6 +14,10 @@ public class JavaSwing extends JFrame {
     private String title;
     private JTextArea listClient;
 
+    public JTextArea getOutText() {
+        return outText;
+    }
+
     public JavaSwing(final Client client, String title) {
         this.client = client;
         this.title = title;
