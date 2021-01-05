@@ -3,9 +3,7 @@ package ru.geekbrains.lymar;
 
 
 import javax.swing.*;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 
 
@@ -17,6 +15,7 @@ import java.net.Socket;
         private Authorization authorization;
         private JDialog dialog;
         private DefaultListModel<String> model;
+        private File file;
 
 
         Client() {
@@ -36,6 +35,7 @@ import java.net.Socket;
                                 if (token[0].equals("/authok")) {
                                     authorization.close();
                                     javaSwing = new JavaSwing(this, token[1]);
+                                    this.file = new File("history_" + token[1]);
                                     break;
                                 }
                                 if(str.equals("Registration complete")) {
@@ -55,6 +55,7 @@ import java.net.Socket;
                                 String str = in.readUTF();
                                 if(!str.startsWith("/")) {
                                     javaSwing.receiveMsg(str);
+                                    outHistory(str);
                                 }
 
                                 else
@@ -94,6 +95,15 @@ import java.net.Socket;
             dialog.setVisible(true);
             JLabel label = new JLabel(message);
             dialog.add(label);
+        }
+
+        public void outHistory(String message) {
+            try (FileWriter writer = new FileWriter(file, true)) {
+                    writer.write(message + System.lineSeparator());
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
  }
 
