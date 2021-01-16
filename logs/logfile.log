@@ -1,0 +1,13 @@
+INFO  2021-01-16 22:38:05 [main] ru.geekbraince.Main (Main.java:13) - сервер запустился!
+INFO  2021-01-16 22:40:52 [main] ru.geekbraince.Main (Main.java:13) - сервер запустился!
+INFO  2021-01-16 23:01:46 [main] ru.geekbraince.Server (Server.java:22) - сервер запустился!
+INFO  2021-01-16 23:14:40 [main] ru.geekbraince.Server (Server.java:22) - сервер запустился!
+INFO  2021-01-16 23:14:53 [main] ru.geekbraince.Server (Server.java:25) - Клиент подключился
+INFO  2021-01-16 23:15:04 [pool-2-thread-1] ru.geekbraince.HandlerClient$1 (HandlerClient.java:40) - Клиент прислал команду
+INFO  2021-01-16 23:15:43 [pool-2-thread-1] ru.geekbraince.HandlerClient$1 (HandlerClient.java:81) - Клиент прислал сообщение
+INFO  2021-01-16 23:15:51 [pool-2-thread-1] ru.geekbraince.HandlerClient$1 (HandlerClient.java:81) - Клиент прислал сообщение
+INFO  2021-01-16 23:16:08 [main] ru.geekbraince.Server (Server.java:25) - Клиент подключился
+INFO  2021-01-16 23:16:26 [pool-3-thread-1] ru.geekbraince.HandlerClient$1 (HandlerClient.java:40) - Клиент прислал команду
+INFO  2021-01-16 23:19:24 [main] ru.geekbraince.Server (Server.java:22) - сервер запустился!
+INFO  2021-01-16 23:19:33 [main] ru.geekbraince.Server (Server.java:28) - Клиент(null) подключился
+INFO  2021-01-16 23:19:44 [pool-2-thread-1] ru.geekbraince.HandlerClient$1 (HandlerClient.java:40) - Клиент прислал команду

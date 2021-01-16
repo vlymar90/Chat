@@ -1,13 +1,17 @@
 package ru.geekbraince;
 
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Vector;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 public class Server {
-
-   private Vector<HandlerClient> clients;
+    private static final Logger LOGGER = LogManager.getLogger(Server.class);
+    private Vector<HandlerClient> clients;
 
     Server() {
         try {
@@ -15,14 +19,15 @@ public class Server {
             ServerSocket server = new ServerSocket(8189);
             clients = new Vector();
             System.out.println("Ждём поключения клиента");
-
+            LOGGER.info("сервер запустился!");
             while (true) {
                 Socket socket = server.accept();
                 System.out.println("Клиент подключился");
                 HandlerClient client = new HandlerClient(socket, this);
+                LOGGER.info("Клиент подключился");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.info("Произошла ошибка!");
         }
         finally {
             SQLHandler.disconnect();

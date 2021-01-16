@@ -1,5 +1,10 @@
 package ru.geekbraince;
 
+
+
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -8,6 +13,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class HandlerClient {
+     private static final Logger LOGGER = LogManager.getLogger(HandlerClient.class);
+
    private HandlerClient client;
    private Socket socket;
    private Server server;
@@ -30,6 +37,7 @@ public class HandlerClient {
                     try {
                         while (true) {
                             String str = in.readUTF();
+                            LOGGER.info("Клиент прислал команду");
                             if (str.startsWith("/auth")) {
                                 String[] token = str.split(" ", 3);
                                 if (token.length == 3) {
@@ -70,6 +78,7 @@ public class HandlerClient {
 
                         while (true) {
                             String str = in.readUTF();
+                            LOGGER.info("Клиент прислал сообщение");
                             String[] token = str.split(" ", 3);
                             if (token[0].equals("/w")) {
                                 server.broadcastMsg(nickName + " : " + token[2], token[1]);
