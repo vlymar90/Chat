@@ -71,7 +71,7 @@ public class JavaSwing extends JFrame {
     }
 
     public void receiveMsg(String str) {
-        outText.setText(outText.getText() + str + "\n");
+        outText.setText(outText.getText() + str + System.lineSeparator());
         if (outText.getText().equals("/end")) {
             try {
                 client.finishConnection();
@@ -92,4 +92,6 @@ public class JavaSwing extends JFrame {
             listClient.setText(listClient.getText() + list[i] + System.lineSeparator());
         }
     }
+
+
 }
