@@ -4,6 +4,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class HandlerClient {
 
@@ -12,6 +14,7 @@ public class HandlerClient {
    private DataInputStream in;
    private DataOutputStream out;
    private String nickName;
+
 
 
     HandlerClient(final Socket socket, final Server server) {
@@ -68,7 +71,7 @@ public class HandlerClient {
                         String str = in.readUTF();
                         String[] token = str.split(" ", 3);
                         if (token[0].equals("/w")) {
-                            server.broadcastMsg(nickName + " : " + token[2], token[1]);
+                            server.broadcastMsg(nickName + ": " + token[2], token[1]);
                         } else {
                             server.broadcastMsg(getNickName() + ": " + str);
                         }
@@ -115,4 +118,6 @@ public class HandlerClient {
     public String getNickName() {
         return nickName;
     }
+
+
 }
