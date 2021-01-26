@@ -4,16 +4,25 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Authorization extends JFrame{
+    public boolean isTime = true;
     private Client client;
     private JPanel frameAuth;
     private JPanel frameReg;
     private JPanel frameChanceNick;
+    private AtomicInteger counter = new AtomicInteger(60);
+    private JLabel infoTime;
+    ExecutorService service = Executors.newFixedThreadPool(3);
+    TimeCounter timeCounter;
 
     Authorization(Client client) {
+        timeCounter = new TimeCounter(this);
         this.client = client;
-        setBounds(600, 200, 230, 220);
+        setBounds(600, 200, 230, 300);
 
         frameAuth = new JPanel(new FlowLayout());
         frameAuth.add(new JLabel("Авторизация"), BorderLayout.NORTH);
@@ -39,6 +48,7 @@ public class Authorization extends JFrame{
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                isTime = false;
                 client.sendMsg("/auth " + lineLogin.getText() + " " + linePassword.getText());
                 lineLogin.setText("");
                 linePassword.setText("");
@@ -49,8 +59,10 @@ public class Authorization extends JFrame{
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                isTime = false;
                 frameAuth.setVisible(false);
                 add(frameReg);
+                frameReg.setVisible(true);
 
             }
         });
@@ -59,16 +71,25 @@ public class Authorization extends JFrame{
         button3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                isTime = false;
                 frameAuth.setVisible(false);
                 add(frameChanceNick);
             }
         });
+
+        JLabel time = new JLabel("Время на авторизацию осталось:");
+        infoTime = new JLabel("" + counter);
+
 
         frameAuth.add(login);
         frameAuth.add(password);
         frameAuth.add(button);
         frameAuth.add(button1);
         frameAuth.add(button3);
+        frameAuth.add(time);
+        frameAuth.add(infoTime);
+
+        service.execute(timeCounter);
 
         JPanel loginReg = new JPanel(new FlowLayout());
         JLabel labelReg = new JLabel("Логин ");
@@ -138,6 +159,16 @@ public class Authorization extends JFrame{
         frameAuth.setVisible(true);
         frameReg.setVisible(false);
         frameChanceNick.setVisible(false);
+        isTime = true;
+        service.execute(timeCounter);
 
+    }
+
+    public AtomicInteger getCounter() {
+        return counter;
+    }
+
+    public JLabel getInfoTime() {
+        return infoTime;
     }
 }

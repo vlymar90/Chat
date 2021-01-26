@@ -105,6 +105,7 @@ public class HandlerClient {
                         }
                         try {
                             socket.close();
+                            executorService.shutdown();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

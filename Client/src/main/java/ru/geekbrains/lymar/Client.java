@@ -42,10 +42,12 @@ import java.net.Socket;
                                 if(str.equals("Registration complete")) {
                                       messageService("Registration complete");
                                       authorization.panelOn();
+
                                 }
                                 if(str.equals("nick change")) {
                                     messageService("complete");
                                     authorization.panelOn();
+
                                 }
                                 else {
                                     messageService(str);
