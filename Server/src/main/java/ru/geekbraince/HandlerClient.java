@@ -1,33 +1,47 @@
 package ru.geekbraince;
 
+
+
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class HandlerClient {
+     private static final Logger LOGGER = LogManager.getLogger(HandlerClient.class);
 
+   private HandlerClient client;
    private Socket socket;
    private Server server;
    private DataInputStream in;
    private DataOutputStream out;
    private String nickName;
-
+   private ExecutorService executorService;
 
 
     HandlerClient(final Socket socket, final Server server) {
         try {
+            client = this;
             this.socket = socket;
             this.server = server;
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
-
-            new Thread(() -> {
+            executorService = Executors.newSingleThreadExecutor();
+            executorService.execute(new Runnable() {
+                @Override
+                public void run() {
                     try {
                         while (true) {
                             String str = in.readUTF();
+                            LOGGER.info("Клиент прислал команду");
                             if (str.startsWith("/auth")) {
                                 String[] token = str.split(" ", 3);
                                 if (token.length == 3) {
@@ -35,7 +49,7 @@ public class HandlerClient {
                                     if (nickNameBD != null) {
                                         nickName = nickNameBD;
                                         sendMsg("/authok " + nickName);
-                                        server.subscribe(this);
+                                        server.subscribe(getClient());
                                         break;
                                     } else {
                                         sendMsg("data used");
@@ -55,57 +69,62 @@ public class HandlerClient {
                                     }
                                 }
                             }
-                            if(str.startsWith("/change")) {
-                                String [] token = str.split(" ");
-                                if(token.length == 3) {
+                            if (str.startsWith("/change")) {
+                                String[] token = str.split(" ");
+                                if (token.length == 3) {
                                     SQLHandler.changeNick(token[1], token[2]);
                                     sendMsg("nick change");
-                                }
-                                else {
+                                } else {
                                     sendMsg("Nick is use");
                                 }
                             }
                         }
 
-                    while (true) {
-                        String str = in.readUTF();
-                        String[] token = str.split(" ", 3);
-                        if (token[0].equals("/w")) {
-                            server.broadcastMsg(nickName + ": " + token[2], token[1]);
-                        } else {
-                            server.broadcastMsg(getNickName() + ": " + str);
-                        }
-                        if (str.equals("/end")) {
-                            break;
-                        }
+                        while (true) {
+                            String str = in.readUTF();
+                            LOGGER.info("Клиент прислал сообщение");
+                            String[] token = str.split(" ", 3);
+                            if (token[0].equals("/w")) {
+                                server.broadcastMsg(nickName + " : " + token[2], token[1]);
+                            } else {
+                                server.broadcastMsg(getNickName() + ": " + str);
+                            }
+                            if (str.equals("/end")) {
+                                break;
+                            }
 
-                    }
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            in.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+
+                        }
+                        try {
+                            out.close();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        finally {
-                            try {
-                                in.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                out.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                socket.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            server.unSubscribe(this);
+                        try {
+                            socket.close();
+                            executorService.shutdown();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        server.unSubscribe(getClient());
                     }
-            }).start();
-    }catch (IOException e) {
+                }
+            });
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
 
     public void sendMsg(String str) {
         try {
@@ -119,5 +138,11 @@ public class HandlerClient {
         return nickName;
     }
 
+
+
+
+    public HandlerClient getClient() {
+        return client;
+    }
 
 }

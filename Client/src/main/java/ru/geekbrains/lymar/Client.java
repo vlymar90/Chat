@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 
 public class Client {
@@ -18,7 +18,6 @@ public class Client {
     private JDialog dialog;
     private DefaultListModel<String> model;
     private File file;
-
 
     Client() {
         try {
@@ -44,10 +43,12 @@ public class Client {
                             if (str.equals("Registration complete")) {
                                 messageService("Registration complete");
                                 authorization.panelOn();
+
                             }
                             if (str.equals("nick change")) {
                                 messageService("complete");
                                 authorization.panelOn();
+
                             } else {
                                 messageService(str);
                             }
@@ -65,15 +66,19 @@ public class Client {
                             }
 
                         }
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }).start();
+
+
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     public void sendMsg(String str) {
         try {
@@ -82,55 +87,54 @@ public class Client {
             e.printStackTrace();
         }
     }
-
-    public void finishConnection() throws IOException {
-        in.close();
-        out.close();
-        socket.close();
-        System.exit(0);
-    }
-
-    public void messageService(String message) {
-        dialog = new JDialog();
-        dialog.setBounds(600, 200, 150, 150);
-        dialog.setVisible(true);
-        JLabel label = new JLabel(message);
-        dialog.add(label);
-    }
-
-    private void outHistory(String message) {
-        try (FileWriter writer = new FileWriter(file, true)) {
-            writer.write(message + System.lineSeparator());
-        } catch (IOException e) {
-            e.printStackTrace();
+        public void finishConnection () throws IOException {
+            in.close();
+            out.close();
+            socket.close();
+            System.exit(0);
         }
-    }
 
-    private void inputHistory() {
-        ArrayList<String> history = new ArrayList<>();
-        String line = "";
-           try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-               do {
-                line = reader.readLine();
-                if(line != null) {
-                    history.add(line);
-                }
-            } while (line != null);
+        public void messageService(String message) {
+            dialog = new JDialog();
+            dialog.setBounds(600, 200, 150, 150);
+            dialog.setVisible(true);
+            JLabel label = new JLabel(message);
+            dialog.add(label);
+        }
 
-            if (history.size() < 100) {
-                for (int i = 0; i < history.size(); i++) {
-                    javaSwing.receiveMsg(history.get(i));
-                }
+        private void  outHistory(String message){
+            try (FileWriter writer = new FileWriter(file, true)) {
+                writer.write(message + System.lineSeparator());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            else {
-                int index = history.size() - 101;
-                for (int i = index; index < history.size(); i++) {
-                    javaSwing.receiveMsg(history.get(i));
+        }
+
+        private void inputHistory () {
+            ArrayList<String> history = new ArrayList<>();
+            String line = "";
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                do {
+                    line = reader.readLine();
+                    if (line != null) {
+                        history.add(line);
+                    }
+                } while (line != null);
+
+                if (history.size() < 100) {
+                    for (int i = 0; i < history.size(); i++) {
+                        javaSwing.receiveMsg(history.get(i));
+                    }
+                } else {
+                    int index = history.size() - 100;
+                    for (int i = index; index < history.size(); i++) {
+                        javaSwing.receiveMsg(history.get(i));
                     }
                 }
-           } catch (IOException e) {
-            javaSwing.getOutText().setText("Истории сообщений нет" + System.lineSeparator());
+            } catch (IOException e) {
+                javaSwing.getOutText().setText("Истории сообщений нет" + System.lineSeparator());
+            }
         }
     }
-}
+
 

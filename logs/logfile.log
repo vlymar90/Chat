@@ -1,0 +1,48 @@
+INFO  2021-01-16 22:38:05 [main] ru.geekbraince.Main (Main.java:13) - сервер запустился!
+INFO  2021-01-16 22:40:52 [main] ru.geekbraince.Main (Main.java:13) - сервер запустился!
+INFO  2021-01-16 23:01:46 [main] ru.geekbraince.Server (Server.java:22) - сервер запустился!
+INFO  2021-01-16 23:14:40 [main] ru.geekbraince.Server (Server.java:22) - сервер запустился!
+INFO  2021-01-16 23:14:53 [main] ru.geekbraince.Server (Server.java:25) - Клиент подключился
+INFO  2021-01-16 23:15:04 [pool-2-thread-1] ru.geekbraince.HandlerClient$1 (HandlerClient.java:40) - Клиент прислал команду
+INFO  2021-01-16 23:15:43 [pool-2-thread-1] ru.geekbraince.HandlerClient$1 (HandlerClient.java:81) - Клиент прислал сообщение
+INFO  2021-01-16 23:15:51 [pool-2-thread-1] ru.geekbraince.HandlerClient$1 (HandlerClient.java:81) - Клиент прислал сообщение
+INFO  2021-01-16 23:16:08 [main] ru.geekbraince.Server (Server.java:25) - Клиент подключился
+INFO  2021-01-16 23:16:26 [pool-3-thread-1] ru.geekbraince.HandlerClient$1 (HandlerClient.java:40) - Клиент прислал команду
+INFO  2021-01-16 23:19:24 [main] ru.geekbraince.Server (Server.java:22) - сервер запустился!
+INFO  2021-01-16 23:19:33 [main] ru.geekbraince.Server (Server.java:28) - Клиент(null) подключился
+INFO  2021-01-16 23:19:44 [pool-2-thread-1] ru.geekbraince.HandlerClient$1 (HandlerClient.java:40) - Клиент прислал команду
+INFO  2021-01-26 13:45:03 [main] ru.geekbraince.Server (Server.java:22) - сервер запустился!
+INFO  2021-01-26 13:45:15 [main] ru.geekbraince.Server (Server.java:27) - Клиент подключился
+INFO  2021-01-26 13:46:07 [main] ru.geekbraince.Server (Server.java:27) - Клиент подключился
+INFO  2021-01-26 13:55:23 [main] ru.geekbraince.Server (Server.java:22) - сервер запустился!
+INFO  2021-01-26 13:55:32 [main] ru.geekbraince.Server (Server.java:27) - Клиент подключился
+INFO  2021-01-26 13:56:06 [main] ru.geekbraince.Server (Server.java:27) - Клиент подключился
+INFO  2021-01-26 14:06:05 [main] ru.geekbraince.Server (Server.java:27) - Клиент подключился
+INFO  2021-01-26 14:12:24 [main] ru.geekbraince.Server (Server.java:27) - Клиент подключился
+INFO  2021-01-26 14:14:46 [main] ru.geekbraince.Server (Server.java:22) - сервер запустился!
+INFO  2021-01-26 14:14:59 [main] ru.geekbraince.Server (Server.java:27) - Клиент подключился
+INFO  2021-01-26 14:46:36 [main] ru.geekbraince.Server (Server.java:27) - Клиент подключился
+INFO  2021-01-26 14:47:14 [pool-3-thread-1] ru.geekbraince.HandlerClient$1 (HandlerClient.java:40) - Клиент прислал команду
+INFO  2021-01-26 14:50:48 [main] ru.geekbraince.Server (Server.java:27) - Клиент подключился
+INFO  2021-01-26 14:51:15 [pool-4-thread-1] ru.geekbraince.HandlerClient$1 (HandlerClient.java:40) - Клиент прислал команду
+INFO  2021-01-26 14:53:21 [main] ru.geekbraince.Server (Server.java:27) - Клиент подключился
+INFO  2021-01-26 14:53:29 [main] ru.geekbraince.Server (Server.java:27) - Клиент подключился
+INFO  2021-01-26 15:03:45 [main] ru.geekbraince.Server (Server.java:27) - Клиент подключился
+INFO  2021-01-26 15:04:24 [pool-7-thread-1] ru.geekbraince.HandlerClient$1 (HandlerClient.java:40) - Клиент прислал команду
+INFO  2021-01-26 15:06:20 [main] ru.geekbraince.Server (Server.java:27) - Клиент подключился
+INFO  2021-01-26 15:06:36 [pool-8-thread-1] ru.geekbraince.HandlerClient$1 (HandlerClient.java:40) - Клиент прислал команду
+INFO  2021-01-26 15:12:18 [main] ru.geekbraince.Server (Server.java:22) - сервер запустился!
+INFO  2021-01-26 15:12:29 [main] ru.geekbraince.Server (Server.java:27) - Клиент подключился
+INFO  2021-01-26 15:12:45 [pool-2-thread-1] ru.geekbraince.HandlerClient$1 (HandlerClient.java:40) - Клиент прислал команду
+INFO  2021-01-26 15:13:12 [pool-2-thread-1] ru.geekbraince.HandlerClient$1 (HandlerClient.java:40) - Клиент прислал команду
+INFO  2021-01-26 15:13:26 [pool-2-thread-1] ru.geekbraince.HandlerClient$1 (HandlerClient.java:40) - Клиент прислал команду
+INFO  2021-01-26 15:14:06 [pool-2-thread-1] ru.geekbraince.HandlerClient$1 (HandlerClient.java:81) - Клиент прислал сообщение
+INFO  2021-02-03 00:15:40 [main] ru.geekbraince.Server (Server.java:25) - сервер запустился!
+INFO  2021-02-03 00:15:52 [main] ru.geekbraince.Server (Server.java:30) - Клиент подключился
+INFO  2021-02-03 00:16:07 [pool-2-thread-1] ru.geekbraince.HandlerClient$1 (HandlerClient.java:44) - Клиент прислал команду
+INFO  2021-02-03 00:16:12 [pool-2-thread-1] ru.geekbraince.HandlerClient$1 (HandlerClient.java:85) - Клиент прислал сообщение
+INFO  2021-02-03 00:16:19 [pool-2-thread-1] ru.geekbraince.HandlerClient$1 (HandlerClient.java:85) - Клиент прислал сообщение
+INFO  2021-02-03 00:16:26 [pool-2-thread-1] ru.geekbraince.HandlerClient$1 (HandlerClient.java:85) - Клиент прислал сообщение
+INFO  2021-02-03 00:16:33 [main] ru.geekbraince.Server (Server.java:30) - Клиент подключился
+INFO  2021-02-03 00:16:46 [pool-3-thread-1] ru.geekbraince.HandlerClient$1 (HandlerClient.java:44) - Клиент прислал команду
+INFO  2021-02-03 00:17:07 [pool-3-thread-1] ru.geekbraince.HandlerClient$1 (HandlerClient.java:85) - Клиент прислал сообщение
