@@ -6,18 +6,32 @@ import java.awt.event.*;
 import java.io.IOException;
 
 
-public class JavaSwing extends JFrame {
-    JTextArea outText;
-    JTextField text;
-    Client client;
 
-    public JavaSwing(final Client client) {
+public class JavaSwing extends JFrame {
+    private JTextArea outText;
+    private JTextField text;
+    private Client client;
+    private String title;
+    private JTextArea listClient;
+
+    public JTextArea getOutText() {
+        return outText;
+    }
+
+    public JavaSwing(final Client client, String title) {
         this.client = client;
+        this.title = title;
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setBounds(600, 200, 400, 500);
-        setTitle("Мой чат");
+        setTitle("Окно чата: " + title);
         setLayout(new BorderLayout());
+
+        listClient = new JTextArea();
+        listClient.setEditable(false);
+        listClient.setMinimumSize(new Dimension(100, 450));
+        listClient.setBackground(Color.LIGHT_GRAY);
+        add(listClient, BorderLayout.WEST);
 
         JPanel outPut = new JPanel(new BorderLayout());
         outText = new JTextArea();
@@ -30,7 +44,6 @@ public class JavaSwing extends JFrame {
         add(outPut, BorderLayout.CENTER);
 
         JPanel inputText = new JPanel(new BorderLayout());
-
         text = new JTextField();
         text.addKeyListener(new KeyAdapter() {
             @Override
@@ -55,25 +68,30 @@ public class JavaSwing extends JFrame {
         inputText.add(submit, BorderLayout.EAST);
         add(inputText, BorderLayout.SOUTH);
         setVisible(true);
-
     }
 
-
-
     public void receiveMsg(String str) {
-        outText.setText(outText.getText() + str + "\n");
-        if(outText.getText().equals("/end")) {
+        outText.setText(outText.getText() + str + System.lineSeparator());
+        if (outText.getText().equals("/end")) {
             try {
                 client.finishConnection();
-            }catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
     }
 
     public void clearText() {
         text.setText("");
         text.requestFocus();
     }
+
+    public void listClientInfo(String[] list) {
+        listClient.setText("");
+        for(int i = 1; i < list.length; i++) {
+            listClient.setText(listClient.getText() + list[i] + System.lineSeparator());
+        }
+    }
+
+
 }
